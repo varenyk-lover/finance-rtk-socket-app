@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import './FinanceTable.css';
 import {styled} from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,71 +8,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import './FinanceTable.css';
-
-const data = [
-    {
-        "ticker": "AAPL",
-        "exchange": "NASDAQ",
-        "price": "214.22",
-        "change": "-7.29",
-        "change_percent": "0.16",
-        "dividend": "0.55",
-        "yield": "0.78",
-        "last_trade_time": "2023-10-24T12:41:47.000Z"
-    },
-    {
-        "ticker": "GOOGL",
-        "exchange": "NASDAQ",
-        "price": "118.77",
-        "change": "-63.84",
-        "change_percent": "0.35",
-        "dividend": "0.30",
-        "yield": "0.20",
-        "last_trade_time": "2023-10-24T12:41:47.000Z"
-    },
-    {
-        "ticker": "MSFT",
-        "exchange": "NASDAQ",
-        "price": "242.09",
-        "change": "-125.61",
-        "change_percent": "0.69",
-        "dividend": "0.39",
-        "yield": "0.13",
-        "last_trade_time": "2023-10-24T12:41:47.000Z"
-    },
-    {
-        "ticker": "AMZN",
-        "exchange": "NASDAQ",
-        "price": "173.45",
-        "change": "157.36",
-        "change_percent": "0.31",
-        "dividend": "0.72",
-        "yield": "1.01",
-        "last_trade_time": "2023-10-24T12:41:47.000Z"
-    },
-    {
-        "ticker": "FB",
-        "exchange": "NASDAQ",
-        "price": "151.91",
-        "change": "196.06",
-        "change_percent": "0.66",
-        "dividend": "0.72",
-        "yield": "0.11",
-        "last_trade_time": "2023-10-24T12:41:47.000Z"
-    },
-    {
-        "ticker": "TSLA",
-        "exchange": "NASDAQ",
-        "price": "180.52",
-        "change": "-77.34",
-        "change_percent": "0.86",
-        "dividend": "0.69",
-        "yield": "1.31",
-        "last_trade_time": "2023-10-24T12:41:47.000Z"
-    }
-
-];
+import {useSelector, useDispatch} from 'react-redux';
+import {io} from 'socket.io-client';
+import {updateTickers, tickersSelector} from '../store/slices/tickersSlice';
 
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
@@ -95,16 +34,46 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
     },
 }));
 
+const socket = io('http://localhost:4000');
 
 export default function FinanceTable() {
+    const dispatch = useDispatch();
+
+    const tickers = useSelector(tickersSelector.getTickers);
+    useEffect(() => {
+        socket.emit('start');
+        socket.on('ticker', (data) => {
+            dispatch(updateTickers(data));
+        });
+    }, [dispatch]);
+
+    const createName = (ticker) => {
+        switch (ticker) {
+            case 'AAPL':
+                return 'Apple';
+            case 'GOOGL':
+                return 'Google';
+            case 'MSFT':
+                return 'Microsoft';
+            case 'AMZN':
+                return 'Amazon';
+            case 'FB':
+                return 'Facebook';
+            case 'TSLA':
+                return 'Tesla';
+            default:
+                return '';
+        }
+    };
+
     return (
-        <TableContainer sx={{minWidth: 200, maxWidth: 600}} sx={{display: "flex", justifyContent: 'center'}}
+        <TableContainer sx={{minWidth: 200, maxWidth: 500}}
                         component={Paper}>
 
-            <Table aria-label="customized table">
+            <Table sx={{minWidth: 200}} aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell>Ticker</StyledTableCell>
+                        <StyledTableCell>Company</StyledTableCell>
                         <StyledTableCell align="right">Price</StyledTableCell>
                         <StyledTableCell align="right">Change</StyledTableCell>
                         <StyledTableCell align="right">% Change</StyledTableCell>
@@ -112,25 +81,28 @@ export default function FinanceTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((company) => {
-                            const priceClasses = +company.change > 0 ? 'positive' : 'negative';
-                            return (
-                                <StyledTableRow key={company.ticker}>
-                                    <StyledTableCell component="th" scope="row">
-                                        {company.ticker}
-                                    </StyledTableCell>
-                                    <StyledTableCell
-                                        align="right">{company.price} $
-                                    </StyledTableCell>
-                                    <StyledTableCell class={`cellItem ${priceClasses}`} align="right">
-                                        {company.change}
-                                    </StyledTableCell>
-                                    <StyledTableCell class={`cellItem ${priceClasses}`} align="right">
-                                        {company.change_percent} %
-                                    </StyledTableCell>
-                                    <StyledTableCell align="right">{company.yield} %</StyledTableCell>
-                                </StyledTableRow>)
-                        }
+                    {tickers.map((company) => {
+                        const priceClasses = +company.change > 0 ? 'positive' : 'negative';
+                        const changeClasses = +company.change > 0 ? '' : 'down';
+                        console.log(tickers);
+                        return (
+                            <StyledTableRow key={company.ticker}>
+                                <StyledTableCell component="th" scope="row">
+                                    {createName(company.ticker)}
+                                </StyledTableCell>
+                                <StyledTableCell
+                                    align="right">{company.price} $
+                                </StyledTableCell>
+                                <StyledTableCell class={`cellItem ${priceClasses}`} align="right">
+                                    {company.change}
+                                </StyledTableCell>
+                                <StyledTableCell class={`cellItem ${priceClasses}`} align="right">
+                                    <span className={`arrow ${priceClasses} ${changeClasses}`}>↑</span>
+                                    {company.change_percent} %
+                                </StyledTableCell>
+                                <StyledTableCell align="right">{company.yield} %</StyledTableCell>
+                            </StyledTableRow>)
+                    }
                     )}
                 </TableBody>
             </Table>
