@@ -23,11 +23,11 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({theme}) => ({
-    '&:nth-of-type(odd)': {
+    "&:nth-of-type(odd)": {
         backgroundColor: theme.palette.action.hover,
     },
     // hide last border
-    '&:last-child td, &:last-child th': {
+    "&:last-child td, &:last-child th": {
         border: 0,
     },
 }));
@@ -37,20 +37,20 @@ const FinanceTable = ({tickers}) => {
 
     const createName = (ticker) => {
         switch (ticker) {
-            case 'AAPL':
-                return 'Apple';
-            case 'GOOGL':
-                return 'Google';
-            case 'MSFT':
-                return 'Microsoft';
-            case 'AMZN':
-                return 'Amazon';
-            case 'FB':
-                return 'Facebook';
-            case 'TSLA':
-                return 'Tesla';
+            case "AAPL":
+                return "Apple";
+            case "GOOGL":
+                return "Google";
+            case "MSFT":
+                return "Microsoft";
+            case "AMZN":
+                return "Amazon";
+            case "FB":
+                return "Facebook";
+            case "TSLA":
+                return "Tesla";
             default:
-                return '';
+                return "";
         }
     };
 
@@ -70,29 +70,31 @@ const FinanceTable = ({tickers}) => {
                 </TableHead>
                 <TableBody>
                     {tickers.map((company) => {
-                            const priceClasses = +company.change > 0 ? 'positive' : 'negative';
-                            const changeClasses = +company.change > 0 ? '' : 'down';
+                        const colorClasses = +company.change > 0 ? "positive" : "negative";
+                        //add "positive" cause tests don't work with empty string as a class
+                        const directionClasses = +company.change > 0 ? "positive" : "down";
 
-                            return (
-                                <StyledTableRow key={company.ticker}>
-                                    <StyledTableCell data-testid="name-cell" component="th" scope="row">
-                                        {createName(company.ticker)}
-                                    </StyledTableCell>
-                                    <StyledTableCell data-testid="price-cell"
-                                                     align="right">{company.price} $
-                                    </StyledTableCell>
-                                    <StyledTableCell data-testid="change-cell" class={`cellItem ${priceClasses}`}
-                                                     align="right">
-                                        {company.change}
-                                    </StyledTableCell>
-                                    <StyledTableCell data-testid="change-percent-cell"
-                                                     class={`cellItem ${priceClasses} `} align="right">
-                                        <span className={`arrow ${priceClasses} ${changeClasses}`}>↑</span>
-                                        {company.change_percent} %
-                                    </StyledTableCell>
-                                    <StyledTableCell data-testid="yield-cell"
-                                                     align="right">{company.yield} %</StyledTableCell>
-                                </StyledTableRow>)
+                        return (
+                            <StyledTableRow key={company.ticker}>
+                                <StyledTableCell data-testid="name-cell" component="th" scope="row">
+                                    {createName(company.ticker)}
+                                </StyledTableCell>
+                                <StyledTableCell data-testid="price-cell" align="right">
+                                    {company.price} $
+                                </StyledTableCell>
+                                <StyledTableCell data-testid="change-cell" class={`cellItem ${colorClasses}`}
+                                                 align="right">
+                                    {company.change}
+                                </StyledTableCell>
+                                <StyledTableCell data-testid="change-percent-cell"
+                                                 class={`cellItem ${colorClasses} `} align="right">
+                                    <span data-testid="arrow" className={`arrow ${directionClasses}`}>↑</span>
+                                    {company.change_percent} %
+                                </StyledTableCell>
+                                <StyledTableCell data-testid="yield-cell" align="right">
+                                    {company.yield} %
+                                </StyledTableCell>
+                            </StyledTableRow>)
                         }
                     )}
                 </TableBody>
