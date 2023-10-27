@@ -1,14 +1,14 @@
-import React, {useEffect} from 'react';
-import './App.css';
+import React, {useEffect} from "react";
+import "./App.css";
 import FinanceTable from "./components/FinanceTable/FinanceTable";
-import CustomizedSwitcher from './components/CustomizedButton/CustomizedSwitcher';
+import CustomizedSwitcher from "./components/CustomizedButton/CustomizedSwitcher";
 import {io} from "socket.io-client";
 import {useDispatch, useSelector} from "react-redux";
 import {turnTickers, updateTickers} from "./store/slices/tickersSlice";
 
 const App = () => {
 
-    const socket = io('http://localhost:4000');
+    const socket = io("http://localhost:4000");
 
     const dispatch = useDispatch();
 
@@ -18,10 +18,11 @@ const App = () => {
 
     useEffect(() => {
         // set listener of server to get data on mount or when switcher is on
-        socket.emit('start');
-        socket.on('ticker', (data) => {
+        socket.emit("start");
+        socket.on("ticker", (data) => {
             // check the switcher and update data if it's on
             if (isTickerOn) {
+                /* eslint-disable-next-line    */
                 dispatch(updateTickers(data));
             }
         });
@@ -30,17 +31,19 @@ const App = () => {
         return () => {
             socket.disconnect();
         };
+        /* eslint-disable-next-line    */
     }, [dispatch, isTickerOn]);
 
     const handleTickersSwitcher = () => {
         const newIsTickerOn = !isTickerOn;
+        /* eslint-disable-next-line     */
         dispatch(turnTickers(newIsTickerOn));
         if (!newIsTickerOn) {
             //disconnect if switcher off
             socket.disconnect();
         } else {
             socket.connect();
-            socket.emit('start');
+            socket.emit("start");
         }
         console.log(newIsTickerOn);
     };

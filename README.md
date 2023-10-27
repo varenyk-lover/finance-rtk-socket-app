@@ -14,11 +14,12 @@ Requirements:
 As a bonus I implemented:
 
 - additional visual effects to highlight positive and negative changes in the prices
+- the possibility to switch on/off tickers
 
  
 
 ## Technologies:
-- React 
+- React with hooks
 - RTK 
 - Socket.io (to connect to the service)
 - MUI library and CSS
