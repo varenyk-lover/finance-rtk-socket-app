@@ -75,20 +75,23 @@ const FinanceTable = ({tickers}) => {
 
                             return (
                                 <StyledTableRow key={company.ticker}>
-                                    <StyledTableCell component="th" scope="row">
+                                    <StyledTableCell data-testid="name-cell" component="th" scope="row">
                                         {createName(company.ticker)}
                                     </StyledTableCell>
-                                    <StyledTableCell
-                                        align="right">{company.price} $
+                                    <StyledTableCell data-testid="price-cell"
+                                                     align="right">{company.price} $
                                     </StyledTableCell>
-                                    <StyledTableCell class={`cellItem ${priceClasses}`} align="right">
+                                    <StyledTableCell data-testid="change-cell" class={`cellItem ${priceClasses}`}
+                                                     align="right">
                                         {company.change}
                                     </StyledTableCell>
-                                    <StyledTableCell class={`cellItem ${priceClasses} `} align="right">
+                                    <StyledTableCell data-testid="change-percent-cell"
+                                                     class={`cellItem ${priceClasses} `} align="right">
                                         <span className={`arrow ${priceClasses} ${changeClasses}`}>↑</span>
                                         {company.change_percent} %
                                     </StyledTableCell>
-                                    <StyledTableCell align="right">{company.yield} %</StyledTableCell>
+                                    <StyledTableCell data-testid="yield-cell"
+                                                     align="right">{company.yield} %</StyledTableCell>
                                 </StyledTableRow>)
                         }
                     )}
