@@ -1,4 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice} from "@reduxjs/toolkit"
+
 
 const initialState = {
     tickers: [],
@@ -6,7 +7,7 @@ const initialState = {
 }
 
 const tickersSlice = createSlice({
-    name: 'tickers',
+    name: "tickers",
     initialState: initialState,
     reducers: {
         updateTickers: (state, {payload}) => {

@@ -1,9 +1,10 @@
-import * as React from 'react';
-import {grey} from '@mui/material/colors';
-import './CustomizedSwitcher.css';
+import {grey} from "@mui/material/colors";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import Switch from "@mui/material/Switch";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import "./CustomizedSwitcher.css";
+
 
 const label = {inputProps: {"aria-label": "Switch tickers"}};
 
@@ -18,5 +19,6 @@ const CustomizedSwitcher = ({handleTickersSwitcher, isTickerOn}) => {
         </div>
     );
 }
+
 
 export default CustomizedSwitcher;

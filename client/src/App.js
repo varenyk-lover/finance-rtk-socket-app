@@ -1,10 +1,11 @@
 import React, {useEffect} from "react";
-import "./App.css";
-import FinanceTable from "./components/FinanceTable/FinanceTable";
-import CustomizedSwitcher from "./components/CustomizedButton/CustomizedSwitcher";
-import {io} from "socket.io-client";
 import {useDispatch, useSelector} from "react-redux";
+import {io} from "socket.io-client";
+import "./App.css";
+import CustomizedSwitcher from "./components/CustomizedButton/CustomizedSwitcher";
+import FinanceTable from "./components/FinanceTable/FinanceTable";
 import {turnTickers, updateTickers} from "./store/slices/tickersSlice";
+
 
 const App = () => {
 
@@ -62,5 +63,6 @@ const App = () => {
         </div>
     );
 }
+
 
 export default App;
