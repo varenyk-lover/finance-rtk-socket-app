@@ -1,7 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-    tickers: []
+    tickers: [],
+    isTickerOn: true,
 }
 
 const tickersSlice = createSlice({
@@ -10,13 +11,13 @@ const tickersSlice = createSlice({
     reducers: {
         updateTickers: (state, {payload}) => {
             state.tickers = payload;
+        },
+        turnTickers: (state, {payload}) => {
+            state.isTickerOn = payload;
         }
     }
 });
 
-export const tickersSelector = {
-    getTickers: (state) => state.tickers,
-}
 
-export const {updateTickers} = tickersSlice.actions;
+export const {updateTickers, turnTickers} = tickersSlice.actions;
 export const tickersReducer = tickersSlice.reducer;

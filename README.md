@@ -11,11 +11,15 @@ Requirements:
 - application should connect to the locally running service
 - application should render price changes for some tickers in real time
 
+As a bonus I implemented:
+
+- additional visual effects to highlight positive and negative changes in the prices
+
  
 
 ## Technologies:
-- React with hooks
-- RTK with Redux-Thunk
+- React 
+- RTK 
 - Socket.io (to connect to the service)
 - MUI library and CSS
 - Testing Library
