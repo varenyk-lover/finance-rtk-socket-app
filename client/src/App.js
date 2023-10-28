@@ -46,7 +46,6 @@ const App = () => {
             socket.connect();
             socket.emit("start");
         }
-        console.log(newIsTickerOn);
     };
 
     return (
