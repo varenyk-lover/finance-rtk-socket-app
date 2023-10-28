@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {io} from "socket.io-client";
 import "./App.css";
-import CustomizedSwitcher from "./components/CustomizedButton/CustomizedSwitcher";
+import CustomizedSwitcher from "./components/CustomizedSwitcher/CustomizedSwitcher";
 import FinanceTable from "./components/FinanceTable/FinanceTable";
 import {turnTickers, updateTickers} from "./store/slices/tickersSlice";
 
