@@ -10,11 +10,11 @@ const tickersSlice = createSlice({
     name: "tickers",
     initialState: initialState,
     reducers: {
-        updateTickers: (state, {payload}) => {
-            state.tickers = payload;
+        updateTickers: (state, action) => {
+            state.tickers = action.payload;
         },
-        turnTickers: (state, {payload}) => {
-            state.isTickerOn = payload;
+        turnTickers: (state, action) => {
+            state.isTickerOn = action.payload;
         }
     }
 });

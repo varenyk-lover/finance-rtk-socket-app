@@ -23,7 +23,7 @@ const App = () => {
         socket.on("ticker", (data) => {
             // check the switcher and update data if it's on
             if (isTickerOn) {
-                /* eslint-disable-next-line    */
+
                 dispatch(updateTickers(data));
             }
         });
@@ -32,12 +32,12 @@ const App = () => {
         return () => {
             socket.disconnect();
         };
-        /* eslint-disable-next-line    */
+// eslint-disable-next-line
     }, [dispatch, isTickerOn]);
 
     const handleTickersSwitcher = () => {
         const newIsTickerOn = !isTickerOn;
-        /* eslint-disable-next-line     */
+
         dispatch(turnTickers(newIsTickerOn));
         if (!newIsTickerOn) {
             //disconnect if switcher off
